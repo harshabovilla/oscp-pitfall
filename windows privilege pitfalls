@@ -1,3 +1,5 @@
+Service binary hijacking
+----------------------------------------
 | #  | Pitfall / Gotcha                                   | Why it kills you in OSCP                                                                 | How to avoid / fix it                                                                                           |
 |----|----------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
 | 1  | File is locked / in use                            | Can't overwrite the .exe because the service is running                                  | `sc stop <svc>` first → if fails: `taskkill /F /PID <pid>` or use Handle.exe / Process Explorer                    |
@@ -10,3 +12,4 @@
 | 8  | Confusing with unquoted service path               | You waste time trying to overwrite when it’s actually unquoted path exploitation         | If path has spaces & no quotes → drop malicious.exe in intermediate folder (e.g., C:\Program.exe)               |
 | 9  | Service is Manual (DEMAND_START)                   | You reboot and nothing triggers                                                           | Check START_TYPE with `sc qc <svc>`. If Manual and nobody starts it → look for another vector                     |
 |10  | Shell dies immediately after connect               | Service watchdog restarts or payload exits too fast                                       | Use persistent payload (Meterpreter, `while($true){start-sleep 999}` loop) or disable failure recovery           |
+-------------------------------------------
